@@ -55,9 +55,9 @@ class BarChart extends AbstractChart {
   }
 
   render() {
+    const {width, height, data, style = {}, hideYAxis} = this.props
     const paddingTop = 16
-    const paddingRight = 64
-    const {width, height, data, style = {}} = this.props
+    const paddingRight = hideYAxis ? 0 : 64
     const {borderRadius = 0} = style
     const config = {
       width,
@@ -84,15 +84,19 @@ class BarChart extends AbstractChart {
               paddingTop
             })}
           </G>
-          <G>
-            {this.renderHorizontalLabels({
-              ...config,
-              count: 4,
-              data: data.datasets[0].data,
-              paddingTop,
-              paddingRight
-            })}
-          </G>
+
+          {!hideYAxis &&
+            <G>
+              {this.renderHorizontalLabels({
+                ...config,
+                count: 4,
+                data: data.datasets[0].data,
+                paddingTop,
+                paddingRight
+              })}
+            </G>
+          }
+          
           <G>
             {this.renderVerticalLabels({
               ...config,
